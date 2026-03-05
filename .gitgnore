@@ -1,0 +1,17 @@
+# Environment
+.env
+*.env
+__pycache__/
+*.pyc
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
+
+# Data
+data/
+*.db
+
+# Notebooks
+.ipynb_checkpoints/
