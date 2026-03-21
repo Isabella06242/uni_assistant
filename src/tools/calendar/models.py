@@ -11,7 +11,7 @@ class CalendarEvent:
     description: str = ""
 
     #Convert to Google Calendar API format
-    def to_google_formata(self) -> dict:
+    def to_google_format(self) -> dict:
         return {
             "Summary": self.title,
             "Description": self.description,
@@ -29,6 +29,6 @@ class CalendarEvent:
     def validate(self):
         if not self.title:
             raise ValueError("Event must have a title")
-        if self.endtime <= self.start_time:
+        if self.end_time <= self.start_time:
             raise ValueError("End time must be after start time")
         return True
