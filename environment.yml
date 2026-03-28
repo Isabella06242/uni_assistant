@@ -1,18 +1,21 @@
 name: align
 channels:
-  - defaults
   - conda-forge
+  - defaults
+
 dependencies:
   - python=3.10
   - pip
+  - setuptools
+  - wheel
+
   - pip:
-    - openai>=1.24.0
-    - langchain==0.1.20
-    - langchain-openai==0.1.7
-    - python-dotenv==1.0.0
-    - composio-core==0.3.14
-    - composio-langchain==0.3.14
-    - streamlit==1.28.0
-    - pandas==2.0.0
-    - jupyter
-    - pytest
+      - openai>=1.30.0
+      - langchain==0.1.20
+      - langchain-core==0.1.52
+      - langchain-openai==0.1.7
+      - langchain-community==0.0.38
+      - python-dotenv==1.0.0
+      - streamlit==1.28.0
+      - pandas==2.0.3
+      - pytest
