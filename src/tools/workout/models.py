@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Optional
+from typing import Literal
 
 @dataclass
 class Exercise:
@@ -8,25 +8,26 @@ class Exercise:
   sets: int
   reps: int
 
-  def validate(self):
-    if not self.name:
+  def __post_init__(self):
+    if not isinstance(self.name, str) or not self.name.strip():
       raise ValueError("Exercise must have a name")
-    if not self.description:
+    if not isinstance(self.description, str) or not self.description.strip():
       raise ValueError(f"{self.name} must have a description")
     if self.sets < 1:
       raise ValueError(f"{self.name} must have at least 1 set")
     if self.reps < 1:
       raise ValueError(f"{self.name} must have at least 1 rep")
-    return True
+
+DAYS = set(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"])
 
 @dataclass
 class WorkoutPlan:
   goal: str
   days_per_week: int
-  schedule: dict  # {"Monday": [Exercise, ...], ...}
+  schedule: dict[str, list[Exercise]]  # {"Monday": [Exercise, ...], ...}
 
-  def validate(self):
-    if not self.goal:
+  def __post_init__(self):
+    if not isinstance(self.goal, str) or not self.goal.strip():
       raise ValueError("Workout plan must have a goal")
     if self.days_per_week < 1 or self.days_per_week > 7:
       raise ValueError("Days per week must be between 1 and 7")
@@ -35,13 +36,17 @@ class WorkoutPlan:
     if self.days_per_week != len(self.schedule):
       raise ValueError("Days per week must match the number of days in the schedule")
     for day, exercises in self.schedule.items():
-      if day not in ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]:
-        raise ValueError(f"Invalid day: {day}")
+      if day not in DAYS:
+        raise ValueError(f"{day} is not a valid day of the week")
       if not exercises:
         raise ValueError(f"{day} must have at least one exercise")
-      for exercise in exercises:
-        exercise.validate()
-    return True
+      seen = set()
+      for ex in exercises:
+        if not isinstance(ex, Exercise):
+          raise ValueError(f"All items in the schedule must be Exercise instances")
+        if ex.name in seen:
+          raise ValueError(f"{ex.name} is duplicated in {day}'s schedule")
+        seen.add(ex.name)
 
   def to_summary(self) -> str:
     summary = f"Workout Plan: {self.goal}\n"
