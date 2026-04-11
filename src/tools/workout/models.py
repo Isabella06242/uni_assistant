@@ -4,8 +4,20 @@ from typing import Optional
 @dataclass
 class Exercise:
   name: str
+  description: str
   sets: int
   reps: int
+
+  def validate(self):
+    if not self.name:
+      raise ValueError("Exercise must have a name")
+    if not self.description:
+      raise ValueError(f"{self.name} must have a description")
+    if self.sets < 1:
+      raise ValueError(f"{self.name} must have at least 1 set")
+    if self.reps < 1:
+      raise ValueError(f"{self.name} must have at least 1 rep")
+    return True
 
 @dataclass
 class WorkoutPlan:
@@ -28,10 +40,7 @@ class WorkoutPlan:
       if not exercises:
         raise ValueError(f"{day} must have at least one exercise")
       for exercise in exercises:
-        if exercise.sets < 1:
-          raise ValueError(f"{exercise.name} must have at least 1 set")
-        if exercise.reps < 1:
-          raise ValueError(f"{exercise.name} must have at least 1 rep")
+        exercise.validate()
     return True
 
   def to_summary(self) -> str:
