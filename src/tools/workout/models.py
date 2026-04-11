@@ -17,6 +17,9 @@ class Exercise:
       raise ValueError(f"{self.name} must have at least 1 set")
     if self.reps < 1:
       raise ValueError(f"{self.name} must have at least 1 rep")
+  
+  def __str__(self):
+    return f"{self.name}\n  {self.description}\n  {self.sets} sets x {self.reps} reps"
 
 DAYS = set(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"])
 
@@ -54,5 +57,5 @@ class WorkoutPlan:
     for day, exercises in self.schedule.items():
       summary += f"{day}:\n"
       for exercise in exercises:
-        summary += f"  - {exercise.name}: {exercise.sets} sets x {exercise.reps} reps\n"
+        summary += f"- {exercise}\n\n"
     return summary
