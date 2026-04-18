@@ -19,7 +19,7 @@ class Exercise:
       raise ValueError(f"{self.name} must have at least 1 rep")
   
   def __str__(self):
-    return f"{self.name}\n  {self.description}\n  {self.sets} sets x {self.reps} reps"
+    return f"**{self.name}**  \n{self.description}  \n{self.sets} sets x {self.reps} reps"
 
 DAYS = set(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"])
 
@@ -52,10 +52,11 @@ class WorkoutPlan:
         seen.add(ex.name)
 
   def to_summary(self) -> str:
-    summary = f"Workout Plan: {self.goal}\n"
-    summary += f"Days per week: {self.days_per_week}\n"
+    summary = f"## Workout Plan: {self.goal}\n\n"
+    summary += f"**Days per week:** {self.days_per_week}\n\n"
     for day, exercises in self.schedule.items():
-      summary += f"{day}:\n"
+      summary += f"### {day}\n"
       for exercise in exercises:
-        summary += f"- {exercise}\n\n"
+        summary += f"- {exercise}\n"
+      summary += "\n"
     return summary

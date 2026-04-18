@@ -2,7 +2,8 @@ import json
 import re
 from .models import Exercise, WorkoutPlan
 
-"""Expected JSON schema:
+def generate_plan(llm_response: str) -> WorkoutPlan:
+  """Expected JSON schema:
     {
       "goal": str,
       "days_per_week": int,
@@ -15,7 +16,7 @@ from .models import Exercise, WorkoutPlan
       }
     }
 """
-def generate_plan(llm_response: str) -> WorkoutPlan:
+
   # Strip markdown code fences if the LLM wrapped the JSON
   cleaned = re.sub(r"^```(?:json)?\s*", "", llm_response.strip(), flags=re.IGNORECASE)
   cleaned = re.sub(r"\s*```$", "", cleaned)
