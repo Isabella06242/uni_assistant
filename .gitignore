@@ -1,6 +1,9 @@
 # Environment
 .env
 *.env
+key.txt
+=1.30.0
+.claude/
 __pycache__/
 *.pyc
 

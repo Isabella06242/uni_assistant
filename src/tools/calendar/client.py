@@ -1,18 +1,14 @@
-from composio_langchain import ComposioToolSet, App
+from composio import Composio
+from composio_langchain import LangchainProvider
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
 
-def get_calendar_toolset() -> ComposioToolSet:
-    """Initialize and return a Composio toolset with Google Calendar tools."""
-    toolset = ComposioToolSet(api_key=os.getenv("COMPOSIO_API_KEY"))
-    return toolset
-
-def get_calendar_tools(toolset: ComposioToolSet = None):
-    """Get the Google Calendar tools from Composio."""
-    if toolset is None:
-        toolset = get_calendar_toolset()
-    
-    tools = toolset.get_tools(apps=[App.GOOGLECALENDAR])
-    return tools
+def get_calendar_tools(user_id: str = "default"):
+    """Get Google Calendar tools from Composio using the v3 API."""
+    composio = Composio(
+        provider=LangchainProvider(),
+        api_key=os.getenv("COMPOSIO_API_KEY"),
+    )
+    return composio.tools.get(user_id=user_id, toolkits=["googlecalendar"], limit=100)
